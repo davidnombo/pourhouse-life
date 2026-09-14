@@ -1,0 +1,27 @@
+name: Install official PourHouse Life logo
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/install-official-logo.yml
+
+permissions:
+  contents: write
+
+jobs:
+  install-logo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download the approved logo
+        run: |
+          curl -fL --retry 3 'https://nombo-api.fly.dev/attachments/4b49d0a6-9a3d-453d-bb46-92441f2928d6/raw?token=1820958430216.9c86aa5cc1763681e4ceec7dcb47f184f5ce046263d86ce583cbdbd29ce2370d' -o assets/pourhouse-life-logo.webp
+      - name: Commit the logo to the repository
+        run: |
+          git config user.name 'Nombo'
+          git config user.email 'davidbrown367@gmail.com'
+          git add assets/pourhouse-life-logo.webp
+          git diff --cached --quiet && exit 0
+          git commit -m 'Add approved PourHouse Life logo asset'
+          git push
