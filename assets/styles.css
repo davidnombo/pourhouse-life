@@ -32,7 +32,8 @@ button { font: inherit; }
 .landing {
   position: relative;
   isolation: isolate;
-  min-height: 100svh;
+  min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
   display: grid;
   grid-template-rows: auto 1fr auto;
