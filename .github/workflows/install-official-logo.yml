@@ -14,14 +14,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Download the approved logo
+      - name: Download the approved website logo
         run: |
           curl -fL --retry 3 'https://nombo-api.fly.dev/attachments/4b49d0a6-9a3d-453d-bb46-92441f2928d6/raw?token=1820958430216.9c86aa5cc1763681e4ceec7dcb47f184f5ce046263d86ce583cbdbd29ce2370d' -o assets/pourhouse-life-logo.webp
-      - name: Commit the logo to the repository
+      - name: Download the document-ready PNG
+        run: |
+          curl -fL --retry 3 'https://nombo-api.fly.dev/attachments/f0c3906e-367c-438f-8884-c1cff9816a0d/raw?token=1820958482322.fd0cb600337e73a9584179d6f2658784e6d145a8c6522d4025a7922422bda8b2' -o assets/pourhouse-life-logo.png
+      - name: Commit the official logo assets
         run: |
           git config user.name 'Nombo'
           git config user.email 'davidbrown367@gmail.com'
-          git add assets/pourhouse-life-logo.webp
+          git add assets/pourhouse-life-logo.webp assets/pourhouse-life-logo.png
           git diff --cached --quiet && exit 0
-          git commit -m 'Add approved PourHouse Life logo asset'
+          git commit -m 'Add official PourHouse Life logo assets'
           git push
