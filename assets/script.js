@@ -25,7 +25,7 @@
 
   function startTimer() {
     stopTimer();
-    if (!paused) timer = window.setInterval(() => showSlide(current + 1), 6500);
+    if (!paused) timer = window.setInterval(() => showSlide(current + 1), 4500);
   }
 
   dots.forEach((dot, index) => {
@@ -47,6 +47,36 @@
     pauseButton.setAttribute('aria-label', 'Play background slideshow');
   }
 
+  const countdown = document.querySelector('.countdown');
+  const countdownLabel = document.querySelector('.countdown-label');
+  const countdownParts = {
+    days: document.querySelector('[data-countdown="days"]'),
+    hours: document.querySelector('[data-countdown="hours"]'),
+    minutes: document.querySelector('[data-countdown="minutes"]'),
+    seconds: document.querySelector('[data-countdown="seconds"]')
+  };
+  const launchTime = new Date('2026-10-18T08:00:00-04:00').getTime();
+
+  function updateCountdown() {
+    const remaining = Math.max(0, launchTime - Date.now());
+    const days = Math.floor(remaining / 86400000);
+    const hours = Math.floor((remaining % 86400000) / 3600000);
+    const minutes = Math.floor((remaining % 3600000) / 60000);
+    const seconds = Math.floor((remaining % 60000) / 1000);
+
+    countdownParts.days.textContent = String(days).padStart(2, '0');
+    countdownParts.hours.textContent = String(hours).padStart(2, '0');
+    countdownParts.minutes.textContent = String(minutes).padStart(2, '0');
+    countdownParts.seconds.textContent = String(seconds).padStart(2, '0');
+
+    if (remaining === 0 && countdown) {
+      countdown.classList.add('is-complete');
+      countdownLabel.textContent = 'Launch day is here';
+    }
+  }
+
   showSlide(0);
   startTimer();
+  updateCountdown();
+  window.setInterval(updateCountdown, 1000);
 })();
